@@ -1,0 +1,35 @@
+﻿@model List<WebApplication3.Models.OrderDetail>
+@{
+    ViewBag.Title = "ViewOrderDetails";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div style="margin: 20px auto; width: 90%; margin-top: 130px;">
+    <h2 style="text-align: center; font-family: 'Times New Roman', sans-serif; font-size: 36px;">CHI TIẾT ĐƠN HÀNG</h2>
+    <hr />
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">MÃ SẢN PHẨM</th>
+                    <th scope="col">TÊN SẢN PHẨM</th>
+                    <th scope="col">SỐ LƯỢNG</th>
+                    <th scope="col">ĐƠN GIÁ</th>
+                    <th scope="col">THÀNH TIỀN</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IDProduct</td>
+                        <td>@item.Product.NamePro</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@(item.Quantity * item.UnitPrice)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

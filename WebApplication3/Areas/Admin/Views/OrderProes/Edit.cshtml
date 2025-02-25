@@ -1,0 +1,80 @@
+﻿@model WebApplication3.Models.OrderPro
+
+@{
+    ViewBag.Title = "Edit Order";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<h2 class="text-center mt-3" style="font-family: 'Times New Roman', Times, serif; color: black;">
+    <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa Đơn Hàng
+</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg p-4">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-calendar-days"></i> Ngày đặt hàng</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa-regular fa-calendar"></i></span>
+                            @Html.EditorFor(model => model.DateOrder, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.DateOrder, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-user"></i> Khách Hàng</label>
+                        @Html.DropDownListFor(model => model.IDCus, ViewBag.IDCus as SelectList, "Chọn khách hàng", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(model => model.IDCus, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-map-marker-alt"></i> Địa chỉ giao hàng</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+                            @Html.EditorFor(model => model.AddressDelivery, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.AddressDelivery, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-spinner"></i> Trạng thái</label>
+                        @Html.DropDownListFor(model => model.StatusOrder, ViewBag.StatusOrderList as SelectList, "Chọn trạng thái", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(model => model.StatusOrder, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-pen"></i> Ghi chú</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa-solid fa-sticky-note"></i></span>
+                            @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="fa-solid fa-save"></i> Cập nhật
+                        </button>
+                        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-danger px-4 ms-2" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ width: '100%' });
+    });
+</script>

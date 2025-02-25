@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "checkOut_Success";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div style="margin-top: 200px; display: flex; justify-content: center; align-items: center;">
+    <div style="text-align: center; background-color: #f8f8f8; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <h2 style="color: #333; font-family: 'Georgia', serif; font-size: 36px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">Chúc mừng! Giao dịch thành công</h2>
+        <div style="margin-top: 20px;">
+            <p style="color: #555; font-family: 'Arial', sans-serif; font-size: 18px; line-height: 1.5;">
+                Cảm ơn quý khách đã tin tưởng và mua sắm tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xử lý thành công và sẽ sớm được giao đến tận nơi.
+            </p>
+            <p style="color: #555; font-family: 'Arial', sans-serif; font-size: 18px; line-height: 1.5;">
+                Chúng tôi hi vọng bạn sẽ hài lòng với sản phẩm và dịch vụ của chúng tôi. Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ để chúng tôi hỗ trợ bạn tốt hơn.
+            </p>
+        </div>
+        <a href="@Url.Action("AgreeCart", "Cart")" class="btn btn-primary" style="margin-top: 20px;">Tiếp tục mua sắm</a>
+    </div>
+
+</div>

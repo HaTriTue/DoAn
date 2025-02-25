@@ -1,0 +1,51 @@
+﻿@model WebApplication3.Models.Adminuser
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container" style="width: 60%; margin: 40px auto;">
+        <h4 class="text-center" style="font-family: 'Georgia', serif;">Đăng ký tài khoản Admin</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NameUser, htmlAttributes: new { @class = "control-label fw-bold" })
+                    <div>
+                        @Html.EditorFor(model => model.NameUser, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên đăng nhập...", style = "font-family: Georgia;" } })
+                        @Html.ValidationMessageFor(model => model.NameUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleUser, htmlAttributes: new { @class = "control-label fw-bold" })
+                    <div>
+                        @Html.EditorFor(model => model.RoleUser, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập vai trò (admin)", style = "font-family: Georgia;" } })
+                        @Html.ValidationMessageFor(model => model.RoleUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PasswordUser, htmlAttributes: new { @class = "control-label fw-bold" })
+                    <div>
+                        @Html.EditorFor(model => model.PasswordUser, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập mật khẩu...", type = "password", style = "font-family: Georgia;" } })
+                        @Html.ValidationMessageFor(model => model.PasswordUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group text-center mt-3">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bx bx-user-plus"></i> Đăng ký
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

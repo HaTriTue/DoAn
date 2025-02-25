@@ -1,0 +1,10 @@
+﻿.card-img-container {
+    height: 400px; /* Đặt chiều cao cố định cho container */
+    overflow: hidden; /* Ẩn phần hình ảnh vượt ra khỏi container */
+}
+
+.card-img-top {
+    object-fit: cover; /* Chọn phương thức thay đổi kích thước hình ảnh để lấp đầy toàn bộ container */
+    height: 100%; /* Đặt chiều cao 100% để hình ảnh lấp đầy container */
+    width: 100%; /* Đặt chiều rộng 100% để hình ảnh lấp đầy container */
+}

@@ -1,0 +1,14 @@
+﻿.custom-btn {
+    background-color: #33CCFF; /* Màu xanh đậm */
+    border-color: #33CCFF; /* Màu viền */
+    color: #fff; /* Màu chữ trắng */
+    font-weight: bold; /* In đậm chữ */
+    padding: 12px 24px; /* Tăng kích cỡ nút */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+}
+
+    .custom-btn:hover {
+        background-color: #33CCFF; /* Màu xanh nước biển nhạt khi di chuột vào */
+        border-color: #33CCFF; /* Màu viền */
+        box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); /* Đổ bóng nhiều hơn khi di chuột vào */
+    }

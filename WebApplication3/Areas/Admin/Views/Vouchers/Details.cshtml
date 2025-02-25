@@ -1,0 +1,30 @@
+﻿@model WebApplication3.Models.Voucher
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayoutADMIN.cshtml";
+}
+
+<div style="margin: auto; width: 40%;">
+    <h4>Voucher Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            MÃ CODE
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            % GIẢM GIÁ
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DiscountPercent)
+        </dd>
+    </dl>
+    <p>
+        @Html.ActionLink("Sửa", "Edit", new { id = Model.VoucherID }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>

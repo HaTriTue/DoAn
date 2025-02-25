@@ -1,0 +1,51 @@
+﻿@model List<WebApplication3.Models.ProductReview>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Đánh giá cho: @ViewBag.Product.NamePro</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Khách hàng</th>
+            <th>Nội dung đánh giá</th>
+            <th>Ngày đánh giá</th>
+            <th>Phản hồi của Admin</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td>@review.Customer.NameCus</td>
+                <td>@review.ReviewText</td>
+                <td>@(review.ReviewDate.HasValue ? review.ReviewDate.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(review.AdminResponse))
+                    {
+                        <span>@review.AdminResponse</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có phản hồi</span>
+                    }
+                </td>
+                <td>
+                    @if ((int)Session["UserID"] == review.IDCus)
+                    {
+                        <a href="@Url.Action("Edit", new { id = review.ReviewID })" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+                        <form action="@Url.Action("Delete", new { id = review.ReviewID })" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này?');">Xóa</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", new { productId = ViewBag.Product.ProductID })" class="btn btn-primary">Thêm đánh giá</a>
+
+

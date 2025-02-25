@@ -1,0 +1,105 @@
+﻿@model WebApplication3.Models.Product
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div style="margin: 20px auto; width: 70%;">
+    <h2 style="text-align: center; font-family: 'Arial', sans-serif; font-size: 36px;">CHI TIẾT SẢN PHẨM</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <img style="width: 100%; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px;" src="~/Images/@Model.ImagePro">
+        </div>
+
+        <div class="col-md-6 py-5">
+            <h4 style="font-size: 24px; font-weight: 600;">Tên sản phẩm: @Model.NamePro</h4>
+            <p><strong>Mô tả:</strong> @Model.DescriptionPro</p>
+            <p class="price" style="font-size: 28px; font-weight: bold;">
+                Giá bán: <span style="color: #ff6600;">@Model.Price VNĐ</span>
+            </p>
+
+            <p>
+                <strong>Đánh giá:</strong>
+                @if (Model.ProductReviews.Any())
+                {
+                    var avgRating = (int)Math.Round(Model.ProductReviews.Average(r => r.Rating));
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="fa fa-star star-icon @(i <= avgRating ? "star-filled" : "star-empty")"></i>
+                    }
+                    <span>(@Model.ProductReviews.Count đánh giá)</span>
+                }
+                else
+                {
+                    <span class="text-muted">Chưa có đánh giá</span>
+                }
+            </p>
+            <a class="btn btn-primary" href="@Url.Action("AddToCart2", "Cart", new { id = Model.ProductID })" style="margin-top: 20px; padding: 10px 30px; border-radius: 5px;">Thêm vào giỏ hàng</a>
+            <a class="btn btn-primary" href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductID })" style="margin-top: 20px; padding: 10px 30px; border-radius: 5px;">Đặt mua</a>
+
+        </div>
+    </div>
+
+    <hr />
+
+    <h3>Đánh giá sản phẩm</h3>
+    @if (Model.ProductReviews.Any())
+    {
+        <ul class="list-group mb-4">
+            @foreach (var review in Model.ProductReviews.OrderByDescending(r => r.ReviewDate))
+            {
+                <li class="list-group-item">
+                    <strong>@review.Customer.NameCus</strong>
+                    <br />
+                    @for (int i = 0; i < review.Rating; i++)
+                    {
+                        <i class="fa fa-star star-icon star-filled"></i>
+                    }
+                    @for (int i = review.Rating; i < 5; i++)
+                    {
+                        <i class="fa fa-star star-icon star-empty"></i>
+                    }
+                    <br />
+                    <span>@review.ReviewText</span>
+                    <br />
+                    <small class="text-muted">@(review.ReviewDate.HasValue ? review.ReviewDate.Value.ToString("dd/MM/yyyy") : "N/A")</small>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="text-muted">Chưa có đánh giá nào.</p>
+    }
+
+    <!-- Form đánh giá sản phẩm -->
+    <h4>Viết đánh giá</h4>
+    <form action="@Url.Action("SubmitReview", "CustomerProducts")" method="post">
+        @Html.Hidden("productId", Model.ProductID)
+        @Html.Hidden("rating", "5") <!-- Mặc định số sao là 5 -->
+
+        <div class="mb-3">
+            <label>Nhận xét:</label>
+            <textarea name="reviewText" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+    </form>
+</div>
+
+<!-- CSS -->
+<style>
+    .star-icon {
+        font-size: 32px;
+    }
+
+    .star-filled {
+        color: gold;
+    }
+
+    .star-empty {
+        color: gold;
+    }
+</style>

@@ -1,0 +1,44 @@
+﻿@model WebApplication3.Models.OrderPro
+
+@{
+    ViewBag.Title = "Chi tiết đơn đặt hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div style="margin-left: 300px; width: 50%; background-color: floralwhite; font-family: 'Times New Roman', Times, serif; padding: 20px; border-radius: 10px;">
+    <h2 style="text-align: center; color: black;">Chi tiết đơn đặt hàng</h2>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt style="color: black;">Mã đơn hàng</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.ID)</dd>
+
+        <dt style="color: black;">Ngày đặt hàng</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.DateOrder)</dd>
+
+        <dt style="color: black;">Tên khách hàng</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.Customer.NameCus)</dd>
+
+        <dt style="color: black;">Địa chỉ giao hàng</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.AddressDelivery)</dd>
+
+        <dt style="color: black;">Trạng thái đơn hàng</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.StatusOrder)</dd>
+
+        <dt style="color: black;">Tổng tiền</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.TotalPrice) VND</dd>
+
+        <dt style="color: black;">Phương thức thanh toán</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.PaymentMethod)</dd>
+
+        <dt style="color: black;">Mã giảm giá</dt>
+        <dd style="color: black;">@(Model.VoucherID.HasValue ? Model.VoucherID.ToString() : "Không có")</dd>
+
+        <dt style="color: black;">Ghi chú</dt>
+        <dd style="color: black;">@Html.DisplayFor(model => model.Note)</dd>
+    </dl>
+
+    <p style="text-align: center; margin-top: 20px;">
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a308f11392d0412dab7411bfe1c1abf8" Name="Diagram1">
+        <EntityTypeShape EntityType="doan5Model.Adminuser" Width="1.5" PointX="8.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.Category" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.Customer" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.OrderDetail" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.OrderPro" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.OrderStatusLog" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.ProductReview" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.Product" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.RevenueReport" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.sysdiagram" Width="1.5" PointX="7.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="doan5Model.Voucher" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <AssociationConnector Association="doan5Model.FK_Pro_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__OrderPro__IDCus__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__ProductRe__IDCus__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__OrderDeta__IDOrd__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__OrderDeta__IDPro__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__OrderPro__Vouche__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__OrderStat__IDOrd__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="doan5Model.FK__ProductRe__Produ__59063A47" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

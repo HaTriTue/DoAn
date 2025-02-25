@@ -1,0 +1,60 @@
+﻿@model WebApplication3.Models.Category
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div style="margin: 10px auto; width: 40%;">
+    <h2 style="text-align: center">CHỈNH SỬA CATEGORY</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <hr />
+
+            @Html.ValidationSummary(true, "", new
+            {
+                @class = "text- danger"
+            })
+
+            @Html.HiddenFor(model => model.ID)
+            <div class="form-group">
+                MÃ CATEGORY
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IDCate, new
+               {
+                   htmlAttributes = new { @class = "form-control", @readonly = "readonly" } //là một thuộc tính (attribute) trong HTML, được sử dụng để chỉ định rằng một trường nhập liệu (input field) trên giao diện web
+                                                                                            //là chỉ để đọc (read-only), nghĩa là người dùng chỉ có thể xem giá trị trong trường này mà không thể thay đổi nó.
+               })
+                    @Html.ValidationMessageFor(model => model.IDCate, "",
+                    new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                TÊN CATEGORY
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NameCate, new
+                    {
+                    htmlAttributes = new { @class = "form-control" }
+                    })
+                    @Html.ValidationMessageFor(model => model.NameCate, "",
+                    new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 mb-3 mt-3">
+
+                    <input type="submit" value="LƯU" class="btn btn-
+primary" />
+
+                </div>
+            </div>
+        </div>
+
+    }
+    <div>
+        @Html.ActionLink("TRỞ LẠI", "Index")
+    </div>
+</div>    
+

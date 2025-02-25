@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "_MainLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>GoodFood</title>
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.css">
+
+    <link rel="stylesheet" href="~/assets/css/templatemo-hexashop.css">
+
+    <link rel="stylesheet" href="~/assets/css/owl-carousel.css">
+
+    <link rel="stylesheet" href="~/assets/css/lightbox.css">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body style=" margin-right: -56px; ">
+   @{
+    var khachhang = Session["TaiKhoan"] as WebApplication3.Models.Customer;
+}
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="../Home/Index" class="logo">
+                            <img src="~/Images/snapedit_1739761448214.png" style="width: 20%; margin-top: -50px;" />
+                        </a>
+                        <ul style="text-decoration:none;">
+                        </ul>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <style>
+                            .nav {
+                                font-size: 30px; /* Tăng kích cỡ chữ cho toàn bộ thanh nav */
+                            }
+
+                                .nav li a {
+                                    font-size: 30px; /* Tăng kích cỡ chữ cho các liên kết */
+                                }
+
+                            .submenu ul li a {
+                                font-size: 18px; /* Tăng kích cỡ chữ cho menu con */
+                            }
+                        </style>
+
+                        <ul class="nav" style="margin-top:18px;">
+                            <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+
+                            <li class="submenu">
+                                <a href="javascript:;">Trang</a>
+                                <ul>
+                                    <li><a href="../Home/About">Xin chào</a></li>
+                                    <li>@Html.ActionLink("Sản phẩm", "Index", "CustomerProducts")</li>
+                                    @if (khachhang == null)
+                                    {
+                                        <li>@Html.ActionLink("Đăng nhập", "Login", "Users")</li>
+                                    }
+                                    else
+                                    {
+                                        <li><a style="color:aliceblue" href="#">Welcome: @khachhang.NameCus</a></li>
+                                        <li>@Html.ActionLink("Đăng xuất", "LogOut", "Users")</li>
+                                    }
+                                    <li>@Html.ActionLink("Giỏ hàng", "GetCartInfo", "Cart")</li>
+                                    <li>@Html.ActionLink("Đơn hàng của tôi", "ViewOrders", "Cart")</li>
+                                </ul>
+                            </li>
+
+                            <li class="submenu">
+                                <a href="javascript:;">Xem thêm sản phẩm</a>
+                                <ul>
+                                    <li><a href="#men" class="active">Combo</a></li>
+                                    <li><a href="#women">Món chính</a></li>
+                                    <li><a href="#kids">Đồ uống - Ăn vặt</a></li>
+                                    <li><a href="../Home/Contact">Contact</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="submenu scroll-to-section">
+                                <a href="javascript:;">Thêm</a>
+                                <ul>
+                                    <li>@Html.ActionLink("Thêm", "GroupByTop5", "OrderDetail")</li>
+                                    <li>@Html.ActionLink("Thông tin tài khoản", "Index", "Users")</li>
+                                    <li>@Html.ActionLink("Voucher", "Index", "UserVoucher")</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+    @RenderBody()
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="first-item">
+                        <div class="logo">
+                            <img src="~/Images/snapedit_1700026620047.png" style="width:75%;" />
+                        </div>
+                        <ul>
+                            <li><a href="#">828 Sư Vạn Hạnh, Phường13, Quận10, TP.Hcm</a></li>
+                            <li><a href="#">nhom2@gmail.com</a></li>
+                            <li><a href="#">035-412-8335</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Shopping &amp; Categories</h4>
+                    <ul>
+                        <li><a href="../CustomerProducts/Index">Món chính </a></li>
+                        <li><a href="../CustomerProducts/Index">Combo</a></li>
+                        <li><a href="../CustomerProducts/Index">Đồ uống-Ăn vặt</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Homepage</a></li>
+                        <li><a href="../Home/About">About Us</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="../Home/Contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Help &amp; Information</h4>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Tracking ID</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <p>
+
+
+                            <br>Design: BY NHÓM2
+                        </p>
+                        <ul>
+                            <li><a href="https://www.facebook.com/tue.ha.108"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/tue.ha.108/"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- jQuery -->
+    <script src="~/assets/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="~/assets/js/popper.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/accordions.js"></script>
+    <script src="~/assets/js/datepicker.js"></script>
+    <script src="~/assets/js/scrollreveal.min.js"></script>
+    <script src="~/assets/js/waypoints.min.js"></script>
+    <script src="~/assets/js/jquery.counterup.min.js"></script>
+    <script src="~/assets/js/imgfix.min.js"></script>
+    <script src="~/assets/js/slick.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/isotope.js"></script>
+
+    <!-- Global Init -->
+    <script src="~/assets/js/custom.js"></script>
+
+    <script>
+
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+
+            });
+        });
+
+    </script>
+
+</body>
+</html>

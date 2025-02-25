@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebApplication3.Models.Voucher>
+
+@{
+    ViewBag.Title = "Danh sách Voucher";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="container" style="margin-top: 100px;">
+    <h2 class="text-center text-danger fw-bold mb-4">🎟️ DANH SÁCH VOUCHERS 🎟️</h2>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4 text-center">
+                        <h5 class="card-title fw-bold text-primary">
+                            <i class="fas fa-ticket-alt"></i> Mã Voucher: @item.VoucherID
+                        </h5>
+                        <p class="card-text text-secondary"><i class="fas fa-barcode"></i> Mã Code: <span class="fw-bold">@item.Code</span></p>
+                        <p class="card-text text-success fw-bold">
+                            <i class="fas fa-percent"></i> Giảm: @item.DiscountPercent%
+                        </p>
+                        <a href="@Url.Action("Details", "UserVoucher", new { id = item.VoucherID })" class="btn btn-warning fw-bold text-white" style="border-radius: 10px;">
+                            <i class="fas fa-eye"></i> Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

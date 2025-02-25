@@ -1,0 +1,41 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<link href="~/Areas/Admin/assets2/css/StyleSheet3.css" rel="stylesheet" />
+<div class="customer-details" style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width:30%; margin-left:300px;text-align:left;">
+    <h4 style="color: dodgerblue; margin-left: -11px; font-family: 'Georgia'">Thông tin tài khoản khách hàng </h4>
+    <hr />
+    <dl class="dl-horizontal" style="width: 70%; margin-left:50px;">
+        <div class="detail-row">
+            <dt>@Html.DisplayNameFor(model => model.NameCus)</dt>
+            <dd>@Html.DisplayFor(model => model.NameCus)</dd>
+        </div>
+        <div class="detail-row">
+            <dt>@Html.DisplayNameFor(model => model.PhoneCus)</dt>
+            <dd>@Html.DisplayFor(model => model.PhoneCus)</dd>
+        </div>
+        <div class="detail-row">
+            <dt>@Html.DisplayNameFor(model => model.EmailCus)</dt>
+            <dd>@Html.DisplayFor(model => model.EmailCus)</dd>
+        </div>
+        <div class="detail-row">
+            <dt>@Html.DisplayNameFor(model => model.PassCus)</dt>
+            <dd>@Html.DisplayFor(model => model.PassCus)</dd>
+        </div>
+        <div class="detail-row">
+            <dt>@Html.DisplayNameFor(model => model.AddressCus)</dt>
+            <dd>@Html.DisplayFor(model => model.AddressCus)</dd>
+        </div>
+    </dl>
+    <div class="action-links" style="margin: 20px 0 0 -11px;">
+        <p>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary btn-custom" })
+        </p>
+    </div>
+
+</div>
+

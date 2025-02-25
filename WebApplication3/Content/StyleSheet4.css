@@ -1,0 +1,42 @@
+﻿.slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider {
+    display: flex;
+    width: 500%; /* 5 ảnh => 5x100% */
+    animation: slideAnimation 5s infinite linear;
+}
+
+    .slider img {
+        width: 100%;
+        height: auto;
+    }
+
+@keyframes slideAnimation {
+    0% {
+        transform: translateX(0%);
+    }
+
+    20% {
+        transform: translateX(-100%);
+    }
+
+    40% {
+        transform: translateX(-200%);
+    }
+
+    60% {
+        transform: translateX(-300%);
+    }
+
+    80% {
+        transform: translateX(-400%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}

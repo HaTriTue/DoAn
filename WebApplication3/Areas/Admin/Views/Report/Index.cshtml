@@ -1,0 +1,73 @@
+﻿@model WebApplication3.Models.RevenueReport
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+<h2 class="text-center" style="font-family: 'Times New Roman'; margin-top: 20px;">Báo cáo thống kê</h2>
+
+<form method="get" action="@Url.Action("Index")" class="text-center">
+    <label for="month">Tháng:</label>
+    <select name="month" id="month">
+        @for (int i = 1; i <= 12; i++)
+        {
+            <option value="@i" @(i == DateTime.Now.Month ? "selected" : "")>@i</option>
+        }
+    </select>
+
+    <label for="year">Năm:</label>
+    <select name="year" id="year">
+        @for (int i = DateTime.Now.Year - 5; i <= DateTime.Now.Year; i++)
+        {
+            <option value="@i" @(i == DateTime.Now.Year ? "selected" : "")>@i</option>
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary">Xem báo cáo</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p class="text-center text-danger">@ViewBag.Message</p>
+}
+
+@if (Model != null)
+{
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <table class="table table-bordered table-striped text-center" style="width: 80%;">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tháng</th>
+                    <th>Năm</th>
+                    <th>Tổng số đơn hàng</th>
+                    <th>Tổng doanh thu</th>
+                    <th>Khách hàng hàng đầu</th>
+                    <th>Sản phẩm bán chạy</th>
+                    <th>Ngày tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.ReportMonth</td>
+                    <td>@Model.ReportYear</td>
+                    <td>@Model.TotalOrders</td>
+                    <td>@Model.TotalRevenue.ToString("C")</td>
+                    <td>
+                        <a href="@Url.Action("Top5Customers", "Report")" class="btn btn-info">
+                            Xem danh sách
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Top5BestSellingProducts", "Report")" class="btn btn-warning">
+                            Xem danh sách
+                        </a>
+                    </td>
+                    <td>@Model.GeneratedAt</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="text-center mt-3">
+    <a href="@Url.Action("GenerateReport", new { month = DateTime.Now.Month, year = DateTime.Now.Year })" class="btn btn-success">Tạo báo cáo mới</a>
+</div>

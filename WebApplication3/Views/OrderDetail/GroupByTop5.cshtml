@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebApplication3.Models.ViewModel>
+
+@{
+    ViewBag.Title = "Top 5 Sản Phẩm Bán Chạy";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div style="margin-top: 100px;">
+    <h2 style="text-align: center; margin-top: 100px; font-family:'Times New Roman', Times, serif ">Danh sách 5 sản phẩm bán chạy nhất</h2>
+    <div class="table-responsive" style="margin-left: auto; margin-right: auto; width: 90%; margin-top: 20px;">
+        <hr />
+
+        <div class="row justify-content-center">
+            @foreach (var i in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <img src="~/Images/@Url.Content(i.ImgPro)" class="card-img-top" alt="Sản phẩm" style="height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-primary fw-bold">@i.NamePro</h5>
+                            <p class="text-muted"><i class="fas fa-tag"></i> Giá: <span class="fw-bold">@i.pricePro.ToString("C")</span></p>
+                            <p class="text-success"><i class="fas fa-box"></i> Đã bán: <span class="fw-bold">@i.Sum_Quantity</span></p>
+                            <a href="../Cart/AddToCart/@i.IDPro" class="btn btn-danger w-100">
+                                <i class="fas fa-shopping-cart"></i> Mua ngay
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

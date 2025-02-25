@@ -1,0 +1,38 @@
+﻿@model WebApplication3.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div style="margin-left: 300px; width: 35%; background-color: floralwhite; border-radius: 10px; padding: 20px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);">
+    <h4 style="font-family: 'Times New Roman', Times, serif; color: #333; text-align: center;">Chi tiết đơn hàng</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Tên sản phẩm</dt>
+        <dd>@Html.DisplayFor(model => model.Product.NamePro)</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Số lượng</dt>
+        <dd>@Html.DisplayFor(model => model.Quantity)</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Đơn giá</dt>
+        <dd>@Html.DisplayFor(model => model.UnitPrice) VND</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Thành tiền</dt>
+        <dd>@Html.DisplayFor(model => model.SubTotal) VND</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Giảm giá</dt>
+        <dd>@Html.DisplayFor(model => model.DiscountAmount) VND</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Ghi chú</dt>
+        <dd>@Html.DisplayFor(model => model.Note)</dd>
+
+        <dt style="font-family: 'Times New Roman', Times, serif; color: #555;">Địa chỉ giao hàng</dt>
+        <dd>@Html.DisplayFor(model => model.OrderPro.AddressDelivery)</dd>
+    </dl>
+
+    <p style="text-align: center; margin-top: 20px;">
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>

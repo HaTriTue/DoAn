@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebApplication3.Models.OrderPro>
+
+@{
+    ViewBag.Title = "Danh sách đơn đặt hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<h2 class="text-center" style="font-family: 'Times New Roman', Times, serif; margin-top: 20px; color: black;">
+    Danh sách đơn đặt hàng
+</h2>
+
+<div class="container mt-4">
+    <div class="table-responsive" style="overflow-x: auto;">
+        <table class="table table-bordered table-hover text-center" style="background-color: white; width: 100%; max-width: 1000px; margin-left: 200px; color: black;">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width: 12%;">Ngày đặt hàng</th>
+                    <th style="width: 15%;">Địa chỉ giao hàng</th>
+                    <th style="width: 12%;">Tên Khách hàng</th>
+                    <th style="width: 12%;">Số điện thoại</th>
+                    <th style="width: 10%;">Trạng thái</th>
+                    <th style="width: 12%;">Tổng tiền (VND)</th>
+                    <th style="width: 15%;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.DateOrder)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AddressDelivery)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Customer.NameCus)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Customer.PhoneCus)</td>
+                        <td>
+                            @if (item.StatusOrder == "Đã xử lý")
+                            {
+                                <span class="badge badge-success" style="color: black;">Đã xử lý</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-warning" style="color: black;">@item.StatusOrder</span>
+                            }
+                        </td>
+                        <td>@String.Format("{0:N2}", item.TotalPrice) VND</td>
+
+                        <td>
+                            <a href="@Url.Action("Details", new { id = item.ID })" class="btn btn-info btn-sm">Chi tiết</a>
+                            <a href="@Url.Action("Delete", new { id = item.ID })" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này không?');">
+                                Xóa
+                            </a>
+                            @if (item.StatusOrder != "Đã xử lý")
+                            {
+                                <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-warning btn-sm">Chỉnh sửa trạng thái</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model List<WebApplication3.Models.ViewModel>
+
+@{
+    ViewBag.Title = "Top5BestSellingProducts";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div style="margin-top: 120px;">
+    <h2 class="text-center">Top 5 Sản Phẩm Bán Chạy Nhất</h2>
+    <div class="table-responsive" style="margin: 20px auto; width: 90%;">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Ảnh</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Giá</th>
+                    <th>Số Lượng Đã Bán</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IDPro</td>
+                        <td>
+                            <img src="~/Images/@Url.Content(item.ImgPro)" alt="@item.NamePro" height="100" />
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Products", new { id = item.IDPro })" class="text-primary">
+                                @item.NamePro
+                            </a>
+                        </td>
+                        <td>@item.pricePro.ToString("C")</td>
+                        <td>@item.Sum_Quantity</td>
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

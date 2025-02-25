@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Admin</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Sử dụng font chữ Roboto */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Trổ bóng */
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold; /* In đậm nội dung */
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!-- Gọi font chữ Roboto từ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Profile - Admin</h1>
+        <table>
+            <tr>
+                <th>Thông tin</th>
+                <th>Chi tiết</th>
+            </tr>
+            <tr>
+                <td><strong>ID Admin</strong></td>
+                <td><strong>22DH114103</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Họ và Tên</strong></td>
+                <td><strong>Hà Trí Tuệ</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Vai trò</strong></td>
+                <td><strong>Quản lý khách hàng</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td><strong>hatritue01654128335@gmail.com</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Số Điện Thoại</strong></td>
+                <td><strong>0354128335</strong></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿@model List<WebApplication3.Areas.Admin.Controllers.ProductReviewGroup>
+@{
+    ViewBag.Title = "Quản lý đánh giá sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<h2 class="text-center" style="font-family: 'Times New Roman'; margin-top: 20px;">Quản lý đánh giá sản phẩm</h2>
+
+<div class="container">
+    <div class="table-responsive" style="margin-left:200px">
+        <table class="table table-hover table-bordered" style="background-color: white;">
+            <thead class="thead-dark">
+                <tr class="text-center">
+                    <th style="width: 20%;">Tên sản phẩm</th>
+                    <th style="width: 15%;">Khách hàng</th>
+                    <th style="width: 40%;">Đánh giá</th>
+                    <th style="width: 15%;">Ngày đánh giá</th>
+                    <th style="width: 10%;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model)
+                {
+                    foreach (var review in group.Reviews)
+                    {
+                        <tr>
+                            <td>@group.Product.NamePro</td>
+                            <td class="text-center">@review.Customer.NameCus</td>
+                            <td>@review.ReviewText</td>
+                            <td class="text-center">
+                                @(review.ReviewDate.HasValue ? review.ReviewDate.Value.ToString("dd/MM/yyyy") : "N/A")
+                            </td>
+                            <td class="text-center">
+                                @using (Html.BeginForm("Delete", "ProductReviews", FormMethod.Post, new { area = "Admin" }))
+                                {
+                                    @Html.Hidden("id", review.ReviewID)
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?');">Xóa</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

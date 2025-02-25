@@ -1,0 +1,21 @@
+﻿.pagination .page-item .page-link {
+    color: black; /* Màu chữ cho nút bấm */
+    font-size: 16px; /* Kích thước font cho nút bấm */
+    padding: 8px 16px; /* Padding cho nút bấm */
+    background-color: transparent; /* Màu nền của nút bấm */
+    border: 1px solid black; /* Viền của nút bấm */
+    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+    .pagination .page-item .page-link:hover,
+    .pagination .page-item .page-link:focus {
+        background-color: black; /* Màu nền khi di chuột hoặc focus */
+        color: white; /* Màu chữ khi di chuột hoặc focus */
+        border-color: black; /* Viền khi di chuột hoặc focus */
+    }
+
+.pagination .page-item.active .page-link {
+    background-color: black; /* Màu nền của trang đang chọn */
+    color: white; /* Màu chữ của trang đang chọn */
+    border-color: black; /* Viền của trang đang chọn */
+}

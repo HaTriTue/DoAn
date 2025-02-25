@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebApplication3.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+
+
+<link href="~/Areas/Admin/assets2/css/StyleSheet1.css" rel="stylesheet" />
+<div class="table-container">
+    <table class="table" style="width:70%;margin-left:50px;">
+        <thead>
+            <tr>
+                <th style="font-family: 'Times New Roman', Times, serif;">Tên Khách Hàng</th>
+                <th style="font-family: 'Times New Roman', Times, serif;">Số Điện Thoại</th>
+                <th style="font-family: 'Times New Roman', Times, serif;">Email</th>
+                <th style="font-family: 'Times New Roman', Times, serif;">Mật Khẩu</th>
+                <th style="font-family: 'Times New Roman', Times, serif;">Địa Chỉ</th>
+                <th style="font-family: 'Times New Roman', Times, serif;">Thao Tác</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.NameCus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PhoneCus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EmailCus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PassCus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AddressCus)</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.IDCus }, new { @class = "action-link btn-custom" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.IDCus }, new { @class = "action-link btn-custom" })
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

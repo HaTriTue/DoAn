@@ -1,0 +1,65 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Register";
+    Layout = null; // Tùy chỉnh giao diện giống trang login
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Đăng Ký</title>
+</head>
+<body>
+    <div class="wrapper">
+        @using (Html.BeginForm("Register", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <h1 style="font-family: 'Times New Roman', serif;">Đăng ký</h1>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.NameCus, new { @class = "form-control", placeholder = "Tên tài khoản", required = "required" })
+                <i class='bx bxs-user'></i>
+                @Html.ValidationMessageFor(model => model.NameCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.EmailCus, new { @class = "form-control", placeholder = "Email", required = "required", type = "email", pattern = "^[a-zA-Z0-9._%+-]+@gmail.com$" })
+                <i class='bx bxs-envelope'></i>
+                @Html.ValidationMessageFor(model => model.EmailCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.PasswordFor(model => model.PassCus, new { @class = "form-control", placeholder = "Mật khẩu", required = "required", minlength = "8" })
+                <i class='bx bxs-lock-alt'></i>
+                @Html.ValidationMessageFor(model => model.PassCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.PhoneCus, new { @class = "form-control", placeholder = "SDT", required = "required", type = "tel", pattern = "^[0-9]{10}$" })
+                <i class='bx bxs-phone'></i>
+                @Html.ValidationMessageFor(model => model.PhoneCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.AddressCus, new { @class = "form-control", placeholder = "Địa chỉ", required = "required" })
+                <i class='bx bxs-map'></i>
+                @Html.ValidationMessageFor(model => model.AddressCus, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn">Đăng ký</button>
+
+            <div class="register-link">
+                <p>Bạn đã có tài khoản? <a href="@Url.Action("Login", "Users")">Đăng nhập</a></p>
+            </div>
+
+            <h3 class="text-danger">@ViewBag.ThongBao</h3>
+        }
+    </div>
+</body>
+</html>

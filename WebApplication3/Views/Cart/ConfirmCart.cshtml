@@ -1,0 +1,161 @@
+﻿@using WebApplication3.Models
+@model List<CartItem>
+@{
+    ViewBag.Title = "ConfirmCart";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    Customer customer = Session["TaiKhoan"] as Customer;
+}
+
+<div style="margin: 50px auto; width: 60%; margin-top:100px">
+    <div style="background-color: #f8f8f8; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <h2 class="title-header">Thông tin đơn hàng</h2>
+
+        @foreach (var product in Model)
+        {
+            <div class="order-item">
+                <img src="~/Images/@product.ImagePro" class="product-img" />
+                <div class="order-details">
+                    <p><strong>MÃ SẢN PHẨM:</strong> @product.ProductID</p>
+                    <p><strong>TÊN SẢN PHẨM:</strong> @product.NamePro</p>
+                    <p><strong>SỐ LƯỢNG:</strong> @product.Number</p>
+                    <p><strong>ĐƠN GIÁ:</strong> @String.Format("{0:0,0}", product.Price)$</p>
+                    <p><strong>THÀNH TIỀN:</strong> @String.Format("{0:0,0}", product.FinalPrice())$</p>
+                </div>
+            </div>
+        }
+
+        <div class="summary">
+            <p class="total-label">Tổng số lượng: <span>@ViewBag.TotalNumber</span></p>
+            <p class="total-label">Tổng tiền: <span>@ViewBag.TotalPrice$</span></p>
+        </div>
+    </div>
+
+    <div class="customer-info">
+        <h2 class="title-header">Thông tin khách hàng</h2>
+
+        <div class="info-item"><span class="info-label">NAME:</span> <span>@customer.NameCus</span></div>
+        <div class="info-item"><span class="info-label">PHONE:</span> <span>@customer.PhoneCus</span></div>
+        <div class="info-item"><span class="info-label">DATE:</span> <span>@DateTime.Now.ToShortDateString()</span></div>
+        <div class="info-item"><span class="info-label">ADDRESS:</span> <span>@customer.AddressCus</span></div>
+
+        @using (Html.BeginForm("checkOut_Success", "Cart", FormMethod.Post, new { id = "checkoutForm" }))
+        {
+            <div>
+                <label for="orderNote">Ghi chú đơn hàng:</label>
+                <textarea id="orderNote" name="orderNote">@TempData["Note"]</textarea>
+            </div>
+
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary" id="btnBuy">Mua hàng</button>
+                <button type="button" class="btn btn-secondary" id="btnPaypal">Thanh toán bằng PayPal</button>
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+    const btnBuy = document.getElementById("btnBuy");
+    const btnPaypal = document.getElementById("btnPaypal");
+    const form = document.getElementById("checkoutForm");
+
+    btnBuy.addEventListener("click", function () {
+        btnBuy.disabled = true; // Vô hiệu hóa nút mua hàng
+        form.action = "@Url.Action("checkOut_Success", "Cart")";
+        form.submit();
+    });
+
+    btnPaypal.addEventListener("click", function () {
+        btnPaypal.disabled = true; // Vô hiệu hóa nút PayPal
+        form.action = "@Url.Action("PaymentWithPaypal", "Cart")";
+        form.submit();
+    });
+});
+</script>
+
+<style>
+    .title-header {
+        color: #333;
+        font-family: 'Georgia', serif;
+        font-size: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+    }
+
+    .order-item {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+    }
+
+    .product-img {
+        width: 100px;
+        margin-right: 20px;
+    }
+
+    .order-details p {
+        margin: 5px 0;
+    }
+
+    .summary {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .total-label {
+        font-weight: bold;
+        color: #ff0000;
+    }
+
+    .customer-info {
+        margin-top: 30px;
+        background-color: #f8f8f8;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+    }
+
+    .info-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .order-note {
+        margin-top: 20px;
+    }
+
+    .button-group {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+</style>

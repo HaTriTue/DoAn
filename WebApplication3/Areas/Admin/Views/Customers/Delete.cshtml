@@ -1,0 +1,48 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+
+<link href="~/Areas/Admin/assets2/css/StyleSheet2.css" rel="stylesheet" />
+<div class="delete-confirmation">
+    <h3>Bạn có chắc chắn xóa tài khoản này hong?</h3>
+    <div class="customer-info" style="width:70%; margin-left:0px;">
+        <h4> Thông Tin Khách Hàng</h4>
+        <hr />
+        <dl class="customer-details">
+            <div class="row">
+                <dt>@Html.DisplayNameFor(model => model.NameCus)</dt>
+                <dd>@Html.DisplayFor(model => model.NameCus)</dd>
+            </div>
+            <div class="row">
+                <dt style="margin-left:30px;">@Html.DisplayNameFor(model => model.PhoneCus)</dt> 
+
+                <dd style="margin-left:30px;">@Html.DisplayFor(model => model.PhoneCus)</dd>
+            </div>
+            <div class="row">
+                <dt>@Html.DisplayNameFor(model => model.EmailCus)</dt>
+                <dd>@Html.DisplayFor(model => model.EmailCus)</dd>
+            </div>
+            <div class="row">
+                <dt>@Html.DisplayNameFor(model => model.PassCus)</dt>
+                <dd>@Html.DisplayFor(model => model.PassCus)</dd>
+            </div>
+            <div class="row">
+                <dt>@Html.DisplayNameFor(model => model.AddressCus)</dt>
+                <dd>@Html.DisplayFor(model => model.AddressCus)</dd>
+            </div>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary btn-custom" })
+            </div>
+        }
+    </div>
+</div>

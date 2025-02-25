@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebApplication3.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div style="margin: 10px auto; width: 40%;">
+    <h2 style="text-align: center">THÔNG TIN PRODUCTS</h2>
+    @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+    {
+        <div class="input-group mb-3" style="border: 2px solid black; border-radius: 10px; overflow: hidden;">
+            @Html.TextBox("Searching", "", new { @class = "form-control", placeholder = "Tìm kiếm...", aria_label = "Tìm kiếm", style = "border: none; border-right: 1px solid black;" })
+            <button class="btn btn-outline-secondary" type="submit" style="border: none; border-left: none;">
+                <i class="bi bi-search"></i> Tìm kiếm
+            </button>
+        </div>
+    }
+    <p>
+        @Html.ActionLink("TẠO MỚI", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                TÊN SẢN PHẨM
+            </th>
+            <th>
+                MÔ TẢ
+            </th>
+            <th>
+                GIÁ
+            </th>
+            <th>
+                HÌNH
+            </th>
+            <th>
+                CATEGORY
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NamePro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionPro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImagePro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.NameCate)
+
+                </td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

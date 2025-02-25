@@ -1,0 +1,40 @@
+﻿.delete-confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.customer-info {
+    margin-top: 20px;
+}
+
+    .customer-info h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+.customer-details {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .customer-details .row {
+        flex: 0 0 50%;
+        padding: 5px 0;
+    }
+
+    .customer-details dt {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+.form-actions {
+    margin-top: 20px;
+}
+
+    .form-actions .btn {
+        margin-right: 10px;
+    }

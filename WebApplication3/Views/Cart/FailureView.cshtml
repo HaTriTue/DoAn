@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "FailureView";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div style="margin-top: 200px; display: flex; justify-content: center; align-items: center;">
+    <div style="text-align: center; background-color: #fff5f5; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <h2 style="color: #d9534f; font-family: 'Times New Roman', serif; font-size: 36px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+            Rất tiếc! Giao dịch không thành công
+        </h2>
+        <div style="margin-top: 20px;">
+            <p style="color: #555; font-family: 'Arial', sans-serif; font-size: 18px; line-height: 1.5;">
+                Chúng tôi rất tiếc vì giao dịch của bạn không thể hoàn thành. Điều này có thể xảy ra do lỗi kỹ thuật hoặc thông tin thanh toán chưa chính xác.
+            </p>
+            <p style="color: #555; font-family: 'Arial', sans-serif; font-size: 18px; line-height: 1.5;">
+                Vui lòng kiểm tra lại thông tin thanh toán hoặc thử lại sau. Nếu vấn đề vẫn tiếp diễn, hãy liên hệ với chúng tôi để được hỗ trợ tốt nhất.
+            </p>
+        </div>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-danger" style="margin-top: 20px;">Quay lại trang chủ</a>
+        <a href="@Url.Action("AgreeCart", "Cart")" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;">Thử lại</a>
+    </div>
+</div>
+

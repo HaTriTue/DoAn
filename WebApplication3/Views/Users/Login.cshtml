@@ -1,0 +1,51 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Đăng Nhập";
+    Layout = null;  // Lược bỏ header và footer
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Đăng Nhập</title>
+</head>
+<body>
+    <div class="wrapper">
+        @using (Html.BeginForm("Login", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <h1 style="font-family: 'Times New Roman', serif;">Đăng nhập</h1>
+
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.NameCus, new { @class = "form-control", placeholder = "Tên tài khoản", required = "required" })
+                <i class='bx bxs-user'></i>
+            </div>
+
+            <div class="input-box">
+                @Html.PasswordFor(model => model.PassCus, new { @class = "form-control", placeholder = "Mật khẩu", required = "required" })
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox" name="RememberMe"> Nhớ tài khoản của tôi</label>
+                <a href="@Url.Action("ForgotPassword", "Users")">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="register-link">
+                <p>Bạn chưa có tài khoản? <a href="@Url.Action("Register", "Users")">Đăng ký</a></p>
+            </div>
+
+            <h3 class="text-danger">@ViewBag.ThongBao</h3>
+        }
+    </div>
+</body>
+</html>

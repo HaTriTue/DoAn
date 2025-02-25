@@ -1,0 +1,51 @@
+﻿@model WebApplication3.Models.OrderStatusLog
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderStatusLog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChangedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChangedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChangedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChangedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderPro.AddressDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderPro.AddressDelivery)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LogID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

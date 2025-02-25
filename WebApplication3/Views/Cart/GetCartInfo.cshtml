@@ -1,0 +1,90 @@
+﻿@using WebApplication3.Models
+@model List<CartItem>
+@{
+    ViewBag.Title = "Giỏ Hàng";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="container" style="margin-top: 130px;">
+    <h2 style="text-align: center; margin-top: 100px; font-family:'Times New Roman', Times, serif ">Giỏ hàng của bạn</h2>
+    <hr />
+
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="row g-0">
+                        <div class="col-md-4 d-flex align-items-center">
+                            <img src="~/Images/@product.ImagePro" class="img-fluid rounded-start" alt="Hình ảnh món ăn" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary fw-bold">
+                                    <i class="fas fa-utensils"></i> @product.NamePro
+                                </h5>
+                                <p class="text-muted">
+                                    <i class="fas fa-dollar-sign"></i> Giá: <span class="fw-bold">@product.Price.ToString("C")</span>
+                                </p>
+                                <p class="text-success">
+                                    <i class="fas fa-tags"></i> Thành tiền: <span class="fw-bold">@product.FinalPrice().ToString("C")</span>
+                                </p>
+
+                                <!-- Cập nhật số lượng -->
+                                <form action="@Url.Action("UpdateCartItem", "Cart", new { id = product.ProductID })" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="number" min="1" value="@product.Number" name="Number" class="form-control d-inline-block w-25 text-center" />
+                                    <button type="submit" class="btn btn-info btn-sm">
+                                        <i class="fas fa-sync"></i> Cập nhật
+                                    </button>
+                                </form>
+
+                                <div class="mt-3">
+                                    <a href="@Url.Action("Details", "CustomerProducts", new { id = product.ProductID })" class="btn btn-success btn-sm">
+                                        <i class="fas fa-eye"></i> Xem chi tiết
+                                    </a>
+                                    <a href="@Url.Action("DeleteCartItem", "Cart", new { id = product.ProductID })" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </a>
+                                    <form action="@Url.Action("ConfirmCart", "Cart")" method="post" class="d-inline">
+                                        @Html.Hidden("id", product.ProductID)
+                                        <button type="submit" class="btn btn-warning btn-sm text-white">
+                                            <i class="fas fa-shopping-bag"></i> Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+        
+    <!-- Hiển thị tổng số lượng & tổng tiền -->
+    <div class="text-end mt-4">
+        <h5 class="fw-bold text-danger">
+            <i class="fas fa-box"></i> Tổng số lượng: @ViewBag.TotalNumber
+        </h5>
+        <h4 class="fw-bold text-success">
+            <i class="fas fa-coins"></i> Tổng tiền: @ViewBag.TotalPrice.ToString("C")
+        </h4>
+    </div>
+
+    <!-- Nhập mã Voucher -->
+    <div class="mt-4 p-3 bg-light rounded shadow">
+        <h5 class="fw-bold"><i class="fas fa-gift"></i> Áp dụng Voucher</h5>
+        <form action="@Url.Action("ApplyVoucher", "Cart")" method="post">
+            @Html.Hidden("productId", Model.FirstOrDefault()?.ProductID ?? 0)
+            <div class="input-group">
+                <input type="text" name="voucherId" class="form-control" placeholder="Nhập mã giảm giá" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Áp dụng
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿/* Add this CSS to your existing styles or in a separate CSS file */
+
+/* Three columns on medium and large screens, two columns on small screens */
+.col-lg-4,
+.col-md-4 {
+    flex-basis: calc(33.3333% - 1rem); /* Set column width for large and medium screens */
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 992px) {
+    .col-md-4 {
+        flex-basis: calc(50% - 1rem); /* Set column width for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .col-lg-4,
+    .col-md-4 {
+        flex-basis: calc(50% - 1rem); /* Set column width for small screens */
+    }
+}

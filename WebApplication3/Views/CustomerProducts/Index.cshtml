@@ -1,0 +1,67 @@
+﻿@model PagedList.PagedList<WebApplication3.Models.Product>
+
+@{
+    ViewBag.Title = "Danh Sách Sản Phẩm";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    IEnumerable<WebApplication3.Models.Product> searchedProducts = ViewBag.SearchResults ?? Model;
+}
+
+<link href="~/assets/css/styles.css" rel="stylesheet" />
+<link href="~/Content/StyleSheet2.css" rel="stylesheet" />
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+<link href="~/Content/StyleSheet3.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="container">
+    <h2 style="color: #333; margin-left:400px;margin-top:150px; font-family: 'Georgia', serif; font-size: 36px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">Danh sách sản phẩm</h2>
+    <div class="row py-3">
+        @using (Html.BeginForm())
+        {
+            <div class="input-group mb-3">
+                @Html.TextBox("Searching", "", new { @class = "form-control", placeholder = "Search...", aria_label = "Search" })
+                <button class="btn btn-outline-secondary" type="submit" id="searchButton">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        }
+
+        @foreach (var sanpham in searchedProducts)
+        {
+            <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-img-container">
+                        <img class="card-img-top img-fluid" src="~/Images/@sanpham.ImagePro" alt="@sanpham.NamePro">
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-family: Cursive;">@sanpham.NamePro</h5>
+                        <p class="card-text" style="font-weight: bold; font-size: 18px; color: #0044cc;">Giá: @sanpham.Price VNĐ</p>
+                        <div style="text-align: center;">
+                            @Html.ActionLink("Xem chi tiết", "Details", new { id = sanpham.ProductID }, new { @class = "btn btn-primary btn-lg custom-btn" })
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="MenuPage">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasPreviousPage ? Model.PageNumber - 1 : 1 })">Trang đầu</a>
+        </li>
+        @for (var i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+        <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasNextPage ? Model.PageNumber + 1 : Model.PageCount })">Kế tiếp</a>
+        </li>
+    </ul>
+</div>

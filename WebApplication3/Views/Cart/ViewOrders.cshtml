@@ -1,0 +1,85 @@
+﻿@model List<WebApplication3.Models.OrderPro>
+@{
+    ViewBag.Title = "ViewOrders";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div style="margin: 20px auto; width: 90%; margin-top: 130px;">
+    <h2 style="text-align: center; font-family: 'Times New Roman', sans-serif; font-size: 36px;">ĐƠN HÀNG CỦA BẠN</h2>
+    <hr />
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">MÃ ĐƠN HÀNG</th>
+                    <th scope="col">NGÀY ĐẶT</th>
+                    <th scope="col">ĐỊA CHỈ GIAO HÀNG</th>
+                    <th scope="col">GHI CHÚ</th>
+                    <th scope="col">TRẠNG THÁI</th>
+                    <th scope="col">CHI TIẾT</th>
+                    <th scope="col">HỦY ĐƠN HÀNG</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.ID</td>
+                        <td>@order.DateOrder</td>
+                        <td>@order.AddressDelivery</td>
+                        <td>
+                            <!-- Hiển thị ghi chú dưới dạng văn bản -->
+                            <span class="form-control-plaintext">@order.Note</span>
+                        </td>
+                        <td>
+                            <!-- Hiển thị trạng thái đơn hàng -->
+                            @if (order.StatusOrder == "Đã giao")
+                            {
+                                <span class="badge badge-success">Đã giao</span>
+                            }
+                            else if (order.StatusOrder == "Đã xử lý")
+                            {
+                                <span class="badge badge-warning">Đã xử lý</span>
+                            }
+                            else if (order.StatusOrder == "Đang giao")
+                            {
+                                <span class="badge badge-info">Đang giao</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">Chờ xử lý</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Xem Chi Tiết", "ViewOrderDetails", "Cart", new { orderId = order.ID }, new { @class = "btn btn-success" })
+                        </td>
+                        <td>
+                            <!-- Hiển thị nút hủy đơn hàng chỉ nếu trạng thái là "Chờ xử lý" hoặc "Đang giao" -->
+                            @if (order.StatusOrder == "Đã giao")
+                            {
+                                <button type="button" class="btn btn-danger" disabled>Đã giao - Không thể hủy</button>
+                            }
+                            else if (order.StatusOrder == "Đã xử lý")
+                            {
+                                <button type="button" class="btn btn-danger" disabled>Đã xử lý - Không thể hủy</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-danger" onclick="confirmCancelOrder(@order.ID)">Hủy Đơn Hàng</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirmCancelOrder(orderId) {
+        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+            // Nếu người dùng xác nhận, chuyển hướng đến action CancelOrder
+            window.location.href = "/Cart/CancelOrder?orderId=" + orderId;
+        }
+    }
+</script>
