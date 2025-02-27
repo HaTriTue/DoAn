@@ -15,32 +15,38 @@ namespace WebApplication3.Controllers
     {
         private doan5Entities db = new doan5Entities();
         // GET: CustomerProducts
-        public ActionResult Index(string category, int? page, double min = double.MinValue, double max = double.MinValue, string Searching = "")
+        public ActionResult Index(string Searching, decimal? minPrice, decimal? maxPrice, int? page)
         {
-            int pageSize = 9;
-            int pageNum = (page ?? 1);
-
-            var productList = db.Products.AsQueryable(); // Lấy danh sách sản phẩm từ DbContext
+            var products = db.Products.AsQueryable(); // Lấy danh sách sản phẩm từ DB
 
             if (!string.IsNullOrEmpty(Searching))
             {
-                productList = productList.Where(x => x.NamePro.ToUpper().Contains(Searching.ToUpper()));
+                products = products.Where(p => p.NamePro.Contains(Searching));
             }
 
-            if (category != null)
+            if (minPrice.HasValue && maxPrice.HasValue)
             {
-                int categoryId = int.Parse(category); // Chuyển đổi string sang int
-                productList = productList.Where(p => p.CategoryID == categoryId);
+                products = products.Where(p => p.Price >= minPrice.Value && p.Price <= maxPrice.Value);
+            }
+            else if (minPrice.HasValue)
+            {
+                products = products.Where(p => p.Price >= minPrice.Value);
+            }
+            else if (maxPrice.HasValue)
+            {
+                products = products.Where(p => p.Price <= maxPrice.Value);
             }
 
+            if (!products.Any())
+            {
+                ViewBag.NoProduct = true; // Nếu không có sản phẩm nào thỏa điều kiện, báo không tìm thấy
+            }
 
-            // Sắp xếp sản phẩm theo tên hoặc điều kiện tùy chọn khác nếu cần
-            productList = productList.OrderBy(x => x.NamePro);
+            int pageSize = 9;
+            int pageNumber = (page ?? 1);
 
-            // Trả về trang sản phẩm sử dụng PagedList
-            return View(productList.ToPagedList(pageNum, pageSize));
+            return View(products.OrderBy(p => p.Price).ToPagedList(pageNumber, pageSize));
         }
-
 
         public ActionResult Details(int id)
         {
@@ -55,7 +61,6 @@ namespace WebApplication3.Controllers
 
             return View(product);
         }
-
 
         public ActionResult GetProductsByCategory()
         {
@@ -95,7 +100,5 @@ namespace WebApplication3.Controllers
 
             return RedirectToAction("Details", new { id = productId });
         }
-
-
     }
 }
