@@ -1,9 +1,8 @@
-﻿@model PagedList.PagedList<WebApplication3.Models.Product>
+@model PagedList.PagedList<WebApplication3.Models.Product>
 
 @{
     ViewBag.Title = "Danh Sách Sản Phẩm";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
-
     IEnumerable<WebApplication3.Models.Product> searchedProducts = ViewBag.SearchResults ?? Model;
 }
 
@@ -12,37 +11,59 @@
 <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
 <link href="~/Content/StyleSheet3.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-<div class="container">
-    <h2 style="color: #333; margin-left:400px;margin-top:150px; font-family: 'Georgia', serif; font-size: 36px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">Danh sách sản phẩm</h2>
-    <div class="row py-3">
-        @using (Html.BeginForm())
+<div class="container" style="margin-top:150px;">
+    <h2 class="page-title">Danh sách sản phẩm</h2>
+
+    <div class="search-container">
+        @using (Html.BeginForm("Index", "CustomerProducts", FormMethod.Get))
         {
-            <div class="input-group mb-3">
-                @Html.TextBox("Searching", "", new { @class = "form-control", placeholder = "Search...", aria_label = "Search" })
-                <button class="btn btn-outline-secondary" type="submit" id="searchButton">
-                    <i class="bi bi-search"></i>
+            <div class="input-group mb-3 search-box">
+                @Html.TextBox("Searching", Request.QueryString["Searching"], new { @class = "form-control", placeholder = "Tìm kiếm sản phẩm..." })
+                <button class="btn btn-outline-primary search-btn" type="submit">
+                    <i class="fas fa-search"></i>
                 </button>
             </div>
-        }
 
+
+            <div class="row price-filter">
+                <div class="col-md-3">
+                    <label for="minPrice">Giá từ:</label>
+                    <input type="number" name="minPrice" class="form-control" value="@Request.QueryString["minPrice"]" min="0" oninput="validatePrice(this)" />
+                </div>
+                <div class="col-md-3">
+                    <label for="maxPrice">Đến:</label>
+                    <input type="number" name="maxPrice" class="form-control" value="@Request.QueryString["maxPrice"]" min="0" oninput="validatePrice(this)" />
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-filter"></i> Lọc</button>
+                </div>
+            </div>
+        }
+        @if (ViewBag.NoProduct == true)
+        {
+            <div class="alert alert-warning text-center">
+                Không tìm thấy sản phẩm nào với mức giá tối đa đã chọn!
+            </div>
+        }
+    </div>
+
+    <div class="row product-list" style="margin-top:30px;">
         @foreach (var sanpham in searchedProducts)
         {
-            <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card h-100">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card product-card">
                     <div class="card-img-container">
-                        <img class="card-img-top img-fluid" src="~/Images/@sanpham.ImagePro" alt="@sanpham.NamePro">
+                        <img class="card-img-top" src="~/Images/@sanpham.ImagePro" alt="@sanpham.NamePro">
                     </div>
-
                     <div class="card-body">
-                        <h5 class="card-title" style="font-family: Cursive;">@sanpham.NamePro</h5>
-                        <p class="card-text" style="font-weight: bold; font-size: 18px; color: #0044cc;">Giá: @sanpham.Price VNĐ</p>
-                        <div style="text-align: center;">
-                            @Html.ActionLink("Xem chi tiết", "Details", new { id = sanpham.ProductID }, new { @class = "btn btn-primary btn-lg custom-btn" })
+                        <h5 class="card-title">@sanpham.NamePro</h5>
+                        <p class="card-text price"> <i class="fas fa-tag"></i> Giá: @sanpham.Price VNĐ</p>
+                        <div class="text-center">
+                            @Html.ActionLink("Xem chi tiết", "Details", new { id = sanpham.ProductID }, new { @class = "btn btn-primary detail-btn" })
                         </div>
                     </div>
-
-
                 </div>
             </div>
         }
@@ -51,8 +72,8 @@
 
 <div class="MenuPage">
     <ul class="pagination justify-content-center">
-        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }">
-            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasPreviousPage ? Model.PageNumber - 1 : 1 })">Trang đầu</a>
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasPreviousPage ? Model.PageNumber - 1 : 1 })"><i class="fas fa-angle-double-left"></i> Trang đầu</a>
         </li>
         @for (var i = 1; i <= Model.PageCount; i++)
         {
@@ -60,8 +81,76 @@
                 <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
             </li>
         }
-        <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
-            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasNextPage ? Model.PageNumber + 1 : Model.PageCount })">Kế tiếp</a>
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", new { page = Model.HasNextPage ? Model.PageNumber + 1 : Model.PageCount })">Kế tiếp <i class="fas fa-angle-double-right"></i></a>
         </li>
     </ul>
 </div>
+
+<script>
+    function validatePrice(input) {
+        if (input.value < 0) {
+            input.value = 0;
+        }
+    }
+
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('hover'));
+        card.addEventListener('mouseleave', () => card.classList.remove('hover'));
+    });
+</script>
+
+<style>
+    .page-title {
+        color: #333;
+        text-align: center;
+        font-family: 'Georgia', serif;
+        font-size: 36px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .search-box input {
+        border-radius: 20px;
+    }
+
+    .search-btn {
+        border-radius: 50%;
+    }
+
+    .product-card {
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            border-radius: 15px 15px 0 0;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+    .price {
+        font-weight: bold;
+        font-size: 18px;
+        color: #0044cc;
+    }
+
+    .detail-btn {
+        border-radius: 25px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-radius: 10px;
+    }
+</style>
