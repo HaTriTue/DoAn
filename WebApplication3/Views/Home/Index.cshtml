@@ -1,81 +1,123 @@
-﻿@{
+@{
     ViewBag.Title = "Home Page";
 }
 
 <!-- ***** Main Banner Area Start ***** -->
 <div class="main-banner" id="top">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="left-content">
-                    <div class="thumb">
-                        <div class="inner-content">
-                            <h4 style="font-family: 'Georgia', sans-serif; background: #999999; font-weight: bold;">HƯƠNG VỊ ĐỘC ĐÁO</h4>
-                            <span style="font-family: 'Times New Roman', serif; background: #999999; display: inline-block; padding: 5px;">Tròn vị, Tinh tế &amp; Sáng tạo</span>
-                            <div class="main-border-button">
-                                <a href="../CustomerProducts/Index" style="font-family: 'Arial', sans-serif; font-weight: bold;">Mua Ngay!</a>
-                            </div>
-                        </div>
-                        <img src="~/Images/pexels-photo-1640777.jpeg" alt="">
-                    </div>
-                </div>
+    <div class="banner-slider">
+        <div class="slide active">
+            <img src="~/Images/pexels-chanwalrus-958545.jpg" />
+            <div class="content">
+                <h4>HƯƠNG VỊ ĐỘC ĐÁO</h4>
+                <p class="banner-text">Tròn vị, Tinh tế & Sáng tạo</p>
+                <a href="../CustomerProducts/Index" class="btn">Mua Ngay!</a>
             </div>
-            <div class="col-lg-6">
-                <div class="right-content" style="width: 77%;">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                     
-                                        <span style="font-family: 'Times New Roman', serif; font-style: italic; background: #999999; font-weight: bold;">Hương Vị <b>Ngon Nhất</b> Dành Cho Bạn</span>
-                                    </div>
-                                    <img src="~/assets/images/f2.jpg"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                        
-                                        <span style="font-family: 'Times New Roman', serif; background: #999999; font-style: italic;">Món Ăn <b>Ngon Nhất</b> Cho Bạn</span>
-                                    </div>
-                                    <img src="~/assets/images/f3.jpeg" />
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                     
-                                        <span style="font-family: 'Times New Roman', serif; background: #999999; font-style: italic;">Chất lượng <b>5 sao</b> Giá cả hợp lý</span>
-                                    </div>
-                                    <img src="~/assets/images/f4.jpeg" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                               
-                                        <span style="font-family: 'Times New Roman', serif; background: #999999; font-style: italic;">Thực đơn đa dạng <b>Tiết kiệm thời gian</b></span>
-                                    </div>
-                                    <img src="~/assets/images/f5.jpg" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </div>
+        <div class="slide">
+            <img src="~/Images/pexels-elevate-1267320.jpg" />
+            <div class="content">
+                <h4>THƯỞNG THỨC TUYỆT VỜI</h4>
+                <p class="banner-text">Ngon - Bổ - Rẻ</p>
+                <a href="../CustomerProducts/Index" class="btn">Khám Phá!</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="~/Images/pexels-fauxels-3184192.jpg" />
+            <div class="content">
+                <h4>MÓN ĂN HẤP DẪN</h4>
+                <p class="banner-text">Đậm đà, Khó quên</p>
+                <a href="../CustomerProducts/Index" class="btn">Thử Ngay!</a>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="~/Images/pexels-pixabay-262978.jpg" />
+            <div class="content">
+                <h4>HƯƠNG VỊ TUYỆT VỜI</h4>
+                <p class="banner-text">Tươi ngon, Chất lượng</p>
+                <a href="../CustomerProducts/Index" class="btn">Khám Phá Ngay!</a>
             </div>
         </div>
     </div>
 </div>
-<!-- ***** Main Banner Area End *****
- ***** Combo Area Starts ***** -->
+
+<style>
+    .main-banner {
+        position: relative;
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+    }
+
+    .banner-slider {
+        display: flex;
+        width: 400%;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+        position: relative;
+        width: 25%;
+        text-align: center;
+    }
+
+        .slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            filter: brightness(70%);
+        }
+
+    .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+    }
+
+    .banner-text {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        font-family: "Times New Roman", serif;
+    }
+
+    h4 {
+        font-family: "Times New Roman", serif;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: #ff4500;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+        .btn:hover {
+            background: #ff6347;
+        }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let index = 0;
+        const slides = document.querySelectorAll(".slide");
+
+        function changeSlide() {
+            index = (index + 1) % slides.length;
+            document.querySelector(".banner-slider").style.transform = `translateX(-${index * 25}%)`;
+        }
+
+        setInterval(changeSlide, 3000);
+    });
+</script>
+<!-- ***** Main Banner Area End ***** -->
+<!--***** Combo Area Starts ***** -->
 <section class="section" id="men">
     <div class="container">
         <div class="row">
@@ -147,7 +189,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/cb4.png"   alt="">
+                                <img src="~/assets/images/cb4.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Combo3</h4>
@@ -170,7 +212,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/cb6.jpg"   alt="">
+                                <img src="~/assets/images/cb6.jpg" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Combo4</h4>
@@ -218,7 +260,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/Screenshot 2024-06-27 193127.png"  alt="">
+                                <img src="~/assets/images/Screenshot 2024-06-27 193127.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Cơm trộn thịt bò Mỹ</h4>
@@ -242,7 +284,7 @@
                                     </ul>
                                 </div>
 
-                                <img src="~/assets/images/Screenshot 2024-06-27 192923.png"  alt="">
+                                <img src="~/assets/images/Screenshot 2024-06-27 192923.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Mì Kim chi bò Mỹ</h4>
@@ -265,7 +307,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/Screenshot 2024-06-27 193042.png"     alt=""> 
+                                <img src="~/assets/images/Screenshot 2024-06-27 193042.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Mì trộn xốt phô mai</h4>
@@ -288,7 +330,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/Screenshot 2024-06-27 192253.png"   alt="">    
+                                <img src="~/assets/images/Screenshot 2024-06-27 192253.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Mì Kim chi đặc biệt</h4>
@@ -359,7 +401,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/dr2.png"  alt="">
+                                <img src="~/assets/images/dr2.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>Trà Lài Đác Thơm</h4>
@@ -382,7 +424,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/f3.png"       alt="">
+                                <img src="~/assets/images/f3.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>
@@ -407,7 +449,7 @@
                                         <li><a href="../Cart/GetCartInfo"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <img src="~/assets/images/f1.png"   alt="">
+                                <img src="~/assets/images/f1.png" alt="">
                             </div>
                             <div class="down-content">
                                 <h4> Passion Panna Cotta</h4>
@@ -427,7 +469,7 @@
         </div>
     </div>
 </section>
-<!-- ***** Kids Area Ends *****
+<!-- ***** Drink Area Ends *****
  ***** Explore Area Starts ***** -->
 <section class="section" id="explore">
     <div class="container">
@@ -462,7 +504,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="first-image">
-                                <img src="~/assets/images/t1.jpg"  alt="">
+                                <img src="~/assets/images/t1.jpg" alt="">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -517,7 +559,7 @@
                             <i class="fa fa-instagram"></i>
                         </a>
                     </div>
-                    <img src="~/assets/images/z8.jpg"   alt="">
+                    <img src="~/assets/images/z8.jpg" alt="">
                 </div>
             </div>
             <div class="col-2">
@@ -528,7 +570,7 @@
                             <i class="fa fa-instagram"></i>
                         </a>
                     </div>
-                    <img src="~/assets/images/z9.jpg"  alt="">
+                    <img src="~/assets/images/z9.jpg" alt="">
                 </div>
             </div>
             <div class="col-2">
@@ -550,7 +592,7 @@
                             <i class="fa fa-instagram"></i>
                         </a>
                     </div>
-                    <img src="~/assets/images/z11.jpg"  alt="">
+                    <img src="~/assets/images/z11.jpg" alt="">
                 </div>
             </div>
             <div class="col-2">
@@ -561,7 +603,7 @@
                             <i class="fa fa-instagram"></i>
                         </a>
                     </div>
-                    <img src="~/assets/images/z12.jpg" +  alt="">
+                    <img src="~/assets/images/z12.jpg" + alt="">
                 </div>
             </div>
         </div>
