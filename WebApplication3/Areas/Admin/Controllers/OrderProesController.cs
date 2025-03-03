@@ -26,9 +26,11 @@ namespace WebApplication3.Areas.Admin.Controllers
                 var totalPrice = db.OrderDetails.Where(od => od.IDOrder == order.ID)
                                                 .Sum(od => od.SubTotal);
                 order.TotalPrice = totalPrice;
+                db.SaveChanges();
             }
 
             return View(orderProes);
+        
         }
 
 
