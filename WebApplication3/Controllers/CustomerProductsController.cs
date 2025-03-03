@@ -24,9 +24,21 @@ namespace WebApplication3.Controllers
                 products = products.Where(p => p.NamePro.Contains(Searching));
             }
 
+            // Kiểm tra nếu có giá trị minPrice và maxPrice cùng lúc
             if (minPrice.HasValue && maxPrice.HasValue)
             {
-                products = products.Where(p => p.Price >= minPrice.Value && p.Price <= maxPrice.Value);
+                var maxProductPrice = products.Any() ? products.Max(p => p.Price) : 0;
+
+                // Kiểm tra nếu maxPrice vượt quá giá cao nhất trong danh sách
+                if (maxPrice.Value > maxProductPrice)
+                {
+                    ViewBag.Message = "Giá tối đa vượt quá giá cao nhất trong danh sách sản phẩm!";
+                    products = new List<Product>().AsQueryable(); // Trả về danh sách rỗng
+                }
+                else
+                {
+                    products = products.Where(p => p.Price >= minPrice.Value && p.Price <= maxPrice.Value);
+                }
             }
             else if (minPrice.HasValue)
             {
@@ -34,12 +46,17 @@ namespace WebApplication3.Controllers
             }
             else if (maxPrice.HasValue)
             {
-                products = products.Where(p => p.Price <= maxPrice.Value);
-            }
+                var maxProductPrice = products.Any() ? products.Max(p => p.Price) : 0;
 
-            if (!products.Any())
-            {
-                ViewBag.NoProduct = true; // Nếu không có sản phẩm nào thỏa điều kiện, báo không tìm thấy
+                if (maxPrice.Value > maxProductPrice)
+                {
+                    ViewBag.Message = "Giá tối đa vượt quá giá cao nhất trong danh sách sản phẩm!";
+                    products = new List<Product>().AsQueryable();
+                }
+                else
+                {
+                    products = products.Where(p => p.Price <= maxPrice.Value);
+                }
             }
 
             int pageSize = 9;
@@ -47,6 +64,7 @@ namespace WebApplication3.Controllers
 
             return View(products.OrderBy(p => p.Price).ToPagedList(pageNumber, pageSize));
         }
+
 
         public ActionResult Details(int id)
         {

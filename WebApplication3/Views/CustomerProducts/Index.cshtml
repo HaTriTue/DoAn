@@ -41,34 +41,43 @@
                 </div>
             </div>
         }
-        @if (ViewBag.NoProduct == true)
-        {
-            <div class="alert alert-warning text-center">
-                Không tìm thấy sản phẩm nào với mức giá tối đa đã chọn!
-            </div>
-        }
+     
+
+
     </div>
 
     <div class="row product-list" style="margin-top:30px;">
-        @foreach (var sanpham in searchedProducts)
-        {
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="card product-card">
-                    <div class="card-img-container">
-                        <img class="card-img-top" src="~/Images/@sanpham.ImagePro" alt="@sanpham.NamePro">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@sanpham.NamePro</h5>
-                        <p class="card-text price"> <i class="fas fa-tag"></i> Giá: @sanpham.Price VNĐ</p>
-                        <div class="text-center">
-                            @Html.ActionLink("Xem chi tiết", "Details", new { id = sanpham.ProductID }, new { @class = "btn btn-primary detail-btn" })
+        <div class="row product-list" style="margin-top:30px;">
+            @if (!searchedProducts.Any())
+            {
+                <p style="font-size: 24px; color: red; font-weight: bold; text-align: center; width: 100%;">
+                    Không có sản phẩm nào hiển thị.
+                </p>
+            }
+            else
+            {
+                foreach (var sanpham in searchedProducts)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card product-card">
+                            <div class="card-img-container">
+                                <img class="card-img-top" src="~/Images/@sanpham.ImagePro" alt="@sanpham.NamePro">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@sanpham.NamePro</h5>
+                                <p class="card-text price"><i class="fas fa-tag"></i> Giá: @sanpham.Price VNĐ</p>
+                                <div class="text-center">
+                                    @Html.ActionLink("Xem chi tiết", "Details", new { id = sanpham.ProductID }, new { @class = "btn btn-primary detail-btn" })
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        }
+                }
+            }
+        </div>
+
+
     </div>
-</div>
 
 <div class="MenuPage">
     <ul class="pagination justify-content-center">
