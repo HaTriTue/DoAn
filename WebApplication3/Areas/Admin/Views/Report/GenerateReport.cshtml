@@ -1,0 +1,48 @@
+﻿@model WebApplication3.Models.RevenueReport
+
+@{
+    ViewBag.Title = "GenerateReport";
+    Layout = "~/Areas/Admin/Views/Shared/_MainLayOutADMIN.cshtml";
+}
+
+<div class="container mt-4 d-flex justify-content-center">
+    <div class="card shadow p-4" style="width: 380px;">
+        <h4 class="text-center text-primary mb-3">
+            <i class="bi bi-bar-chart-fill"></i> Báo Cáo Doanh Thu
+        </h4>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-warning p-2 text-center">@ViewBag.Message</div>
+        }
+
+        @using (Html.BeginForm("GenerateReport", "Report", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-month"></i></span>
+                    @Html.DropDownList("month", (SelectList)ViewBag.Month, "-- Chọn tháng --", new { @class = "form-select" })
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    @Html.DropDownList("year", (SelectList)ViewBag.Year, "-- Chọn năm --", new { @class = "form-select" })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+                <i class="bi bi-check-circle-fill"></i> Tạo Báo Cáo
+            </button>
+        }
+
+        <div class="text-center mt-2">
+            <a href="@Url.Action("Index", "Report")" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </div>
+</div>

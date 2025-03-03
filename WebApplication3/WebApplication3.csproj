@@ -880,6 +880,7 @@
     <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Top5BestSellingProducts.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Top5Customers.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\GenerateReport.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

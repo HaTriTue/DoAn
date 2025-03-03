@@ -35,8 +35,23 @@ namespace WebApplication3.Areas.Admin.Controllers
 
 
         // Tạo báo cáo doanh thu mới
+        public ActionResult GenerateReport()
+        {
+            ViewBag.Month = new SelectList(Enumerable.Range(1, 12));
+            ViewBag.Year = new SelectList(Enumerable.Range(DateTime.Now.Year - 5, 6));
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult GenerateReport(int month, int year)
         {
+            if (month < 1 || month > 12 || year < 2000)
+            {
+                ViewBag.Message = "Tháng hoặc năm không hợp lệ.";
+                return RedirectToAction("GenerateReport");
+            }
+
             try
             {
                 var totalOrders = db.OrderProes.Count(o => o.DateOrder.Month == month && o.DateOrder.Year == year);
@@ -47,28 +62,45 @@ namespace WebApplication3.Areas.Admin.Controllers
                 if (totalOrders == 0)
                 {
                     ViewBag.Message = "Không có đơn hàng nào trong tháng và năm này.";
-                    return RedirectToAction("Index", new { month, year });
+                    return RedirectToAction("GenerateReport");
                 }
 
-                var existingReport = db.RevenueReports
-                    .FirstOrDefault(r => r.ReportMonth == month && r.ReportYear == year);
+                // 🔥 **Lấy Top 1 khách hàng có tổng đơn hàng cao nhất**
+                var topCustomer = db.OrderProes
+                    .Where(o => o.DateOrder.Month == month && o.DateOrder.Year == year && o.StatusOrder == "Đã giao")
+                    .GroupBy(o => o.Customer.NameCus)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => g.Key)
+                    .FirstOrDefault() ?? "Không có khách hàng";
+
+                // 🔥 **Lấy Top 1 sản phẩm bán chạy nhất**
+                var topProduct = db.OrderDetails
+                    .Where(od => db.OrderProes.Any(o => o.ID == od.IDOrder && o.DateOrder.Month == month && o.DateOrder.Year == year))
+                    .GroupBy(od => od.Product.NamePro)
+                    .OrderByDescending(g => g.Sum(od => od.Quantity))
+                    .Select(g => g.Key)
+                    .FirstOrDefault() ?? "Không có sản phẩm";
+
+                var existingReport = db.RevenueReports.FirstOrDefault(r => r.ReportMonth == month && r.ReportYear == year);
 
                 if (existingReport != null)
                 {
-                    // Nếu báo cáo đã tồn tại, cập nhật dữ liệu mới
                     existingReport.TotalOrders = totalOrders;
                     existingReport.TotalRevenue = totalRevenue;
+                    existingReport.TopCustomer = topCustomer;
+                    existingReport.TopProduct = topProduct;
                     existingReport.GeneratedAt = DateTime.Now;
                 }
                 else
                 {
-                    // Nếu chưa có, tạo báo cáo mới
                     var report = new RevenueReport
                     {
                         ReportMonth = month,
                         ReportYear = year,
                         TotalRevenue = totalRevenue,
                         TotalOrders = totalOrders,
+                        TopCustomer = topCustomer,
+                        TopProduct = topProduct,
                         GeneratedAt = DateTime.Now
                     };
 
@@ -78,12 +110,23 @@ namespace WebApplication3.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new { month, year });
             }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(e => e.ValidationErrors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                ViewBag.Message = "Lỗi khi lưu dữ liệu: " + string.Join("; ", errorMessages);
+                return RedirectToAction("GenerateReport");
+            }
             catch (Exception ex)
             {
                 ViewBag.Message = "Lỗi: " + ex.Message;
-                return RedirectToAction("Index", new { month, year });
+                return RedirectToAction("GenerateReport");
             }
         }
+
 
 
 
