@@ -41,6 +41,16 @@
             <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
+                <p>
+                    Đăng nhập với Google?
+                    <a href="@Url.Action("ExternalLogin", "Users", new { provider = "Google", returnUrl = "/" })">
+                        Google
+                    </a>
+                </p>
+            </div>
+
+
+            <div class="register-link">
                 <p>Bạn chưa có tài khoản? <a href="@Url.Action("Register", "Users")">Đăng ký</a></p>
             </div>
 
