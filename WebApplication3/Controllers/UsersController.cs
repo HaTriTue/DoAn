@@ -1,4 +1,5 @@
-﻿using System;
+using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -6,12 +7,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication3.Models;
+using Microsoft.Owin;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using WebApplication3.LoginGG;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+
 
 namespace WebApplication3.Controllers
 {
     public class UsersController : Controller
     {
         private doan5Entities database = new doan5Entities();
+        private readonly CustomerService _customerService;
+        private IAuthenticationManager AuthenticationManager => Request.GetOwinContext().Authentication;
+
+
+        public UsersController()
+        {
+            _customerService = new CustomerService();
+        }
         // GET: Users
         public ActionResult Register()
         {
@@ -209,6 +225,81 @@ namespace WebApplication3.Controllers
             }
             return View(customer);
         }
+
+
+        //ĐĂNG NHẬP GOOGLE
+        [AllowAnonymous]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("ExternalLoginCallback", "Users", new { returnUrl })
+            };
+            HttpContext.GetOwinContext().Authentication.Challenge(properties, provider);
+            return new HttpUnauthorizedResult();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            var loginInfo = await HttpContext.GetOwinContext().Authentication.GetExternalLoginInfoAsync();
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Lấy thông tin từ Google
+            var email = loginInfo.Email;
+            var name = loginInfo.DefaultUserName;
+            var provider = loginInfo.Login.LoginProvider;
+
+            // Kiểm tra người dùng đã tồn tại chưa
+            var customer = database.Customers.FirstOrDefault(c => c.EmailCus == email);
+            if (customer == null)
+            {
+                customer = new Customer
+                {
+                    NameCus = name,
+                    EmailCus = email,
+                    PassCus = "", // Không lưu mật khẩu Google
+                    PhoneCus = "",
+                    AddressCus = ""
+                };
+                database.Customers.Add(customer);
+                database.SaveChanges();
+            }
+
+            // Đăng nhập vào hệ thống
+            var identity = new ClaimsIdentity(new[]
+            {
+        new Claim(ClaimTypes.NameIdentifier, customer.IDCus.ToString()),
+        new Claim(ClaimTypes.Name, customer.NameCus),
+        new Claim(ClaimTypes.Email, customer.EmailCus),
+        new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", provider)
+    }, "ExternalCookie");
+
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
+
+            // Lưu vào session
+            Session["TaiKhoan"] = customer;
+
+            return RedirectToLocal(returnUrl);
+        }
+
+
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home"); // Chuyển hướng đến trang chủ nếu `returnUrl` không hợp lệ
+        }
+
+
+
+
 
     }
 }
