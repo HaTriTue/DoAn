@@ -1,0 +1,47 @@
+using WebApplication3.Models;
+using System.Linq;
+
+namespace WebApplication3.LoginGG
+{
+    public class CustomerService
+    {
+        private readonly doan5Entities _context;
+
+        public CustomerService()
+        {
+            _context = new doan5Entities(); // Thay YourDbContext bằng DbContext của bạn
+        }
+
+        public Customer GetCustomerByEmail(string email)
+        {
+            return _context.Customers.FirstOrDefault(c => c.EmailCus == email);
+        }
+
+        public Customer CreateCustomer(string email, string fullName, string phone = null)
+        {
+            var existingCustomer = GetCustomerByEmail(email);
+            if (existingCustomer != null)
+            {
+                // Nếu khách hàng đã tồn tại, có thể cập nhật số điện thoại nếu cần
+                if (!string.IsNullOrEmpty(phone) && string.IsNullOrEmpty(existingCustomer.PhoneCus))
+                {
+                    existingCustomer.PhoneCus = phone;
+                    _context.SaveChanges();
+                }
+                return existingCustomer;
+            }
+
+            var newCustomer = new Customer
+            {
+                EmailCus = email,
+                NameCus = fullName,
+                PhoneCus = phone // Lưu số điện thoại
+            };
+
+            _context.Customers.Add(newCustomer);
+            _context.SaveChanges();
+
+            return newCustomer;
+        }
+    }
+}
