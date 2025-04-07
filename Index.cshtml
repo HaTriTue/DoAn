@@ -1,0 +1,51 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh; margin-top:100px;">
+    <div class="card shadow-lg p-4" style="width: 40rem; border-radius: 12px;">
+        <div class="card-body">
+            <h4 class="card-title text-center text-primary" style="font-family: 'Georgia';">
+                <i class="fas fa-user-circle"></i> Thông tin tài khoản khách hàng
+            </h4>
+            <hr />
+
+            <dl class="row">
+                <div class="col-12 mb-3">
+                    <dt><i class="fas fa-user"></i> Họ và tên</dt>
+                    <dd class="fw-bold">@Html.DisplayFor(model => model.NameCus)</dd>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <dt><i class="fas fa-phone"></i> Số điện thoại</dt>
+                    <dd class="fw-bold">@Html.DisplayFor(model => model.PhoneCus)</dd>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <dt><i class="fas fa-envelope"></i> Email</dt>
+                    <dd class="fw-bold">@Html.DisplayFor(model => model.EmailCus)</dd>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <dt><i class="fas fa-key"></i> Mật khẩu</dt>
+                    <dd class="fw-bold text-muted">*********</dd> <!-- Ẩn mật khẩu -->
+                </div>
+
+                <div class="col-12 mb-3">
+                    <dt><i class="fas fa-map-marker-alt"></i> Địa chỉ</dt>
+                    <dd class="fw-bold">@Html.DisplayFor(model => model.AddressCus)</dd>
+                </div>
+            </dl>
+
+            <div class="text-center mt-4">
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.IDCus }, new { @class = "btn btn-primary px-4", style = "border-radius: 8px;" })
+            </div>
+        </div>
+    </div>
+</div>

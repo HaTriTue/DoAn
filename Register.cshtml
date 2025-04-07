@@ -1,0 +1,233 @@
+﻿@model WebApplication3.Models.Customer
+
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Đăng Ký</title>
+    <style>
+        .pac-container {
+            z-index: 10000 !important;
+            font-family: Arial, sans-serif;
+        }
+
+        .loading-address {
+            color: #888;
+            font-style: italic;
+        }
+
+        .location-error {
+            color: #ff4444;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        @using (Html.BeginForm("Register", "Users", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <h1 style="font-family: 'Times New Roman', serif;">Đăng ký</h1>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.NameCus, new { @class = "form-control", placeholder = "Tên tài khoản", required = "required" })
+                <i class='bx bxs-user'></i>
+                @Html.ValidationMessageFor(model => model.NameCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.EmailCus, new { @class = "form-control", placeholder = "Email", required = "required", type = "email", pattern = "^[a-zA-Z0-9._%+-]+@gmail.com$" })
+                <i class='bx bxs-envelope'></i>
+                @Html.ValidationMessageFor(model => model.EmailCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.PasswordFor(model => model.PassCus, new { @class = "form-control", placeholder = "Mật khẩu", required = "required", minlength = "8" })
+                <i class='bx bxs-lock-alt'></i>
+                @Html.ValidationMessageFor(model => model.PassCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.PhoneCus, new { @class = "form-control", placeholder = "Số điện thoại", required = "required", type = "tel", pattern = "^[0-9]{10}$" })
+                <i class='bx bxs-phone'></i>
+                @Html.ValidationMessageFor(model => model.PhoneCus, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-box">
+                @Html.TextBoxFor(model => model.AddressCus, new { @class = "form-control", placeholder = "Nhập địa chỉ hoặc chọn từ bản đồ", required = "required", id = "address" })
+                <i class='bx bxs-map' id="getLocationBtn" title="Lấy vị trí hiện tại"></i>
+                @Html.ValidationMessageFor(model => model.AddressCus, "", new { @class = "text-danger" })
+                <div id="locationStatus" class="location-error"></div>
+            </div>
+
+            <button type="submit" class="btn">Đăng ký</button>
+
+            <div class="register-link">
+                <p>Bạn đã có tài khoản? <a href="@Url.Action("Login", "Users")">Đăng nhập</a></p>
+            </div>
+
+            <h3 class="text-danger">@ViewBag.ThongBao</h3>
+        }
+    </div>
+
+    <!-- Load Google Maps API với Places Library -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8CyeqZkRSEx7i7qtyg8lKSzYF0h-kC_c&libraries=places&callback=initApplication" async defer></script>
+
+    <script>
+        // Biến toàn cục
+        var geocoder;
+        var autocomplete;
+
+        // Hàm khởi tạo ứng dụng
+        function initApplication() {
+            initAutocomplete();
+            setupLocationButton();
+        }
+
+        // Khởi tạo chức năng autocomplete cho input địa chỉ
+        function initAutocomplete() {
+            var input = document.getElementById('address');
+
+            if (input) {
+                autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['geocode'],
+                    componentRestrictions: { country: 'vn' } // Giới hạn kết quả cho Việt Nam
+                });
+
+                autocomplete.addListener('place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        showLocationStatus('Địa chỉ không hợp lệ', 'error');
+                    } else {
+                        showLocationStatus('Đã chọn địa chỉ từ bản đồ', 'success');
+                    }
+                });
+            }
+        }
+
+        // Thiết lập sự kiện cho nút lấy vị trí
+        function setupLocationButton() {
+            var locationButton = document.getElementById('getLocationBtn');
+            if (locationButton) {
+                locationButton.addEventListener('click', function () {
+                    getCurrentLocation();
+                });
+            }
+        }
+
+        // Lấy vị trí hiện tại
+        function getCurrentLocation() {
+            var addressInput = document.getElementById('address');
+            var statusElement = document.getElementById('locationStatus');
+
+            if (!navigator.geolocation) {
+                showLocationStatus('Trình duyệt không hỗ trợ định vị', 'error');
+                return;
+            }
+
+            showLocationStatus('Đang lấy vị trí...', 'loading');
+            addressInput.placeholder = "Đang xác định vị trí...";
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    reverseGeocode(position.coords.latitude, position.coords.longitude);
+                },
+                function (error) {
+                    handleLocationError(error);
+                    addressInput.placeholder = "Nhập địa chỉ hoặc chọn từ bản đồ";
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        // Chuyển đổi tọa độ thành địa chỉ
+        function reverseGeocode(lat, lng) {
+            if (!geocoder) {
+                geocoder = new google.maps.Geocoder();
+            }
+
+            var latlng = {
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            };
+
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                var addressInput = document.getElementById('address');
+
+                if (status === 'OK') {
+                    if (results[0]) {
+                        addressInput.value = results[0].formatted_address;
+                        showLocationStatus('Đã lấy địa chỉ từ vị trí hiện tại', 'success');
+                    } else {
+                        showLocationStatus('Không tìm thấy địa chỉ cho vị trí này', 'error');
+                    }
+                } else {
+                    showLocationStatus('Lỗi khi lấy địa chỉ: ' + status, 'error');
+                }
+
+                addressInput.placeholder = "Nhập địa chỉ hoặc chọn từ bản đồ";
+            });
+        }
+
+        // Xử lý lỗi khi lấy vị trí
+        function handleLocationError(error) {
+            var errorMessage;
+
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "Bạn đã từ chối yêu cầu định vị. Vui lòng cho phép truy cập vị trí.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "Thông tin vị trí không khả dụng.";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "Yêu cầu lấy vị trí đã hết thời gian chờ.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = "Đã xảy ra lỗi không xác định khi lấy vị trí.";
+                    break;
+            }
+
+            showLocationStatus(errorMessage, 'error');
+        }
+
+        // Hiển thị trạng thái lấy vị trí
+        function showLocationStatus(message, type) {
+            var statusElement = document.getElementById('locationStatus');
+            if (statusElement) {
+                statusElement.textContent = message;
+                statusElement.className = 'location-error';
+
+                if (type === 'success') {
+                    statusElement.style.color = '#4CAF50';
+                } else if (type === 'error') {
+                    statusElement.style.color = '#ff4444';
+                } else if (type === 'loading') {
+                    statusElement.style.color = '#2196F3';
+                }
+            }
+        }
+
+        // Ngăn chặn form submit khi nhấn Enter trong ô địa chỉ
+        document.getElementById('address')?.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
